@@ -88,7 +88,7 @@ jobs:
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
           task-definition: ${{ env.ECS_TASK_DEFINITION_API }}
-          container-name: api
+          container-name: team2
           image: ${{ env.API_IMAGE_URI }}
 
       - name: Create deployment package
