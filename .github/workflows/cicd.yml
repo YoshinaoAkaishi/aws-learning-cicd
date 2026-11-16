@@ -1,4 +1,4 @@
-name: Build And Publish Service A
+name: Build And Publish Repo1
 
 on:
   push:
@@ -8,8 +8,6 @@ on:
 env:
   AWS_REGION: ap-northeast-1
   ECR_REPOSITORY: my-app-api
-  SERVICE_NAME: service-a
-  CLUSTER_NAME: my-app-cluster
   ARTIFACT_BUCKET: pipeline-artifacts
 
 permissions:
@@ -19,6 +17,10 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: cicd-section/api
 
     steps:
       - name: Checkout
@@ -45,26 +47,18 @@ jobs:
           docker tag temp_image $ECR_REGISTRY/$ECR_REPOSITORY:${{ github.sha }}
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:${{ github.sha }}
 
-          echo "$ECR_REGISTRY/$ECR_REPOSITORY:${{ github.sha }}" > image-uri.txt
-
-      - name: Create deploy metadata
-        run: |
-          IMAGE=$(cat image-uri.txt)
-
           cat <<EOF > deploy.json
           {
-            "cluster":"${CLUSTER_NAME}",
-            "service":"${SERVICE_NAME}",
-            "container":"api",
-            "image":"${IMAGE}"
+            "deploy_repo1": true,
+            "deploy_repo2": false,
+            "image": "$ECR_REGISTRY/$ECR_REPOSITORY:${{ github.sha }}"
           }
           EOF
 
-      - name: Package artifact
+      - name: Package Artifact
         run: |
           zip deploy.zip deploy.json
 
-      - name: Upload artifact to S3
+      - name: Upload To S3
         run: |
-          aws s3 cp deploy.zip \
-            s3://${ARTIFACT_BUCKET}/service-a/deploy.zip
+          aws s3 cp deploy.zip s3://${ARTIFACT_BUCKET}/deploy.zip
