@@ -69,7 +69,7 @@ jobs:
       uses: aws-actions/configure-aws-credentials@v4
       with: 
         aws-region: ${{ env.AWS_REGION}}
-        role-to-assume: arn:aws:iam::009160046789:role/GitHubActionsEcsLearningCourse
+        role-to-assume: arn:aws:iam::009160046789:role/aws-learning-pushrole-team1
     - name: Download the artifact
       uses: actions/download-artifact@v4
       with:
