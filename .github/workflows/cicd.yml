@@ -9,7 +9,7 @@ on:
 
 env:
   AWS_REGION: ap-northeast-1
-  ECR_REPOSITORY: aws-learning/phase2/<チーム名>
+  ECR_REPOSITORY: aws-learning/phase2/team1
   ECS_TASK_DEFINITION_API: cicd-section/.aws/task-def-api.json
 
 permissions:
@@ -38,7 +38,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: ${{ env.AWS_REGION }}
-          role-to-assume: arn:aws:iam::009160046789:role/aws-learning-pushrole-<チーム名>
+          role-to-assume: arn:aws:iam::009160046789:role/aws-learning-pushrole-team1
 
       - name: Login to Amazon ECR
         id: login-ecr
@@ -117,10 +117,10 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: ${{ env.AWS_REGION }}
-          role-to-assume: arn:aws:iam::009160046789:role/aws-learning-pushrole-<チーム名>
+          role-to-assume: arn:aws:iam::009160046789:role/aws-learning-pushrole-team1
 
       - name: Upload deployment package to S3
         run: |
           aws s3 cp \
             deploy/deployment.zip \
-            s3://aws-learning-<チーム名>/deployment.zip
+            s3://aws-learning-team1/deployment.zip
