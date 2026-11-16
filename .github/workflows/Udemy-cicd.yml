@@ -8,8 +8,8 @@ on:
 
 env:
   AWS_REGION: ap-northeast-1
-  ECS_CLUSTER: aws-learning-phase1
-  ECS_SERVICE: aws-learning-phase1-service-fbx18246
+  ECS_CLUSTER: aws-learning-team1
+  ECS_SERVICE: aws-learning-team1
   ECR_REPOSITORY: aws-learning/phase2/team1
   ECS_TASK_DEFINITION_API: cicd-section/.aws/task-def-api.json
 
