@@ -1,7 +1,6 @@
 FROM gradle:jdk21 AS build
 WORKDIR /app
 COPY . /app
-RUN chmod +x gradlew
 RUN ./gradlew build
 
 
