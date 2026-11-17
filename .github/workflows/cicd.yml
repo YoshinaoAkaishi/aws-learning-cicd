@@ -83,25 +83,35 @@ jobs:
         run: |
           echo "API_IMAGE_URI=$(cat artifacts/api-image-uri.txt)" >> $GITHUB_ENV
 
-      - name: Render ECS Task Definition
-        id: render-task-def
-        uses: aws-actions/amazon-ecs-render-task-definition@v1
-        with:
-          task-definition: ${{ env.ECS_TASK_DEFINITION_API }}
-          container-name: team2
-          image: ${{ env.API_IMAGE_URI }}
+#      - name: Render ECS Task Definition
+#        id: render-task-def
+#        uses: aws-actions/amazon-ecs-render-task-definition@v1
+#        with:
+#          task-definition: ${{ env.ECS_TASK_DEFINITION_API }}
+#          container-name: api
+#          image: ${{ env.API_IMAGE_URI }}
+#
+#      - name: Create deployment package
+#        run: |
+#          mkdir deploy
+#
+#          cp \
+#            "${{ steps.render-task-def.outputs.task-definition }}" \
+#            deploy/taskdef.json
+#
+#          cd deploy
+#
+#          zip deployment.zip taskdef.json
 
       - name: Create deployment package
         run: |
           mkdir deploy
-
-          cp \
-            "${{ steps.render-task-def.outputs.task-definition }}" \
-            deploy/taskdef.json
-
+          jq -n --arg uri "$API_IMAGE_URI" \
+            '[{"name": "team1", "imageUri": $uri}]' \
+            > deploy/imagedefinitions.json
+          cat deploy/imagedefinitions.json
           cd deploy
-
-          zip deployment.zip taskdef.json
+          zip deployment.zip imagedefinitions.json
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
