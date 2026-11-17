@@ -107,7 +107,7 @@ jobs:
         run: |
           mkdir deploy
           jq -n --arg uri "$API_IMAGE_URI" \
-            '[{"name": "team1", "imageUri": $uri}]' \
+            '[{"name": "team2", "imageUri": $uri}]' \
             > deploy/imagedefinitions.json
           cat deploy/imagedefinitions.json
           cd deploy
