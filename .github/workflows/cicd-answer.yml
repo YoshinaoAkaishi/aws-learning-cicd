@@ -2,10 +2,8 @@ name: Web API Deploy Pipeline
 
 on:
   push:
-    paths:
-      - '.github/workflows/**'
-      - 'cicd-section/api/**'
-      - 'cicd-section/.aws/**'
+    branches:
+      - answer
 
 env:
   AWS_REGION: ap-northeast-1
